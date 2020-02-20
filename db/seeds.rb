@@ -10,8 +10,24 @@ require 'json'
 require 'open-uri'
 
 url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list'
-cocktail_data = open(url).record
-data = JSON.parse(cocktail_data)
-data['drinks'].each do |drink|
+data = open(url).read
+ingredients = JSON.parse(data)
+ingredients['drinks'].each do |drink|
   Ingredient.create(name: drink["strIngredient1"])
 end
+
+
+puts 'Creating cocktails...'
+cocktail_attributes = [
+  {
+    name: 'Strawberry Daquiri',
+  },
+  {
+    name: 'Mojito',
+  }
+]
+Cocktail.create!(cocktail_attributes)
+puts 'Finished!'
+
+
+
